@@ -33,3 +33,17 @@ func uniqueEvents() -> (models: [Event], local: [LocalEvent]) {
     }
     return (models, local)
 }
+
+extension Date {
+    func minusCacheMaxAge() -> Date {
+        return adding(seconds: -EventsCachePolicy.thirtyMinutes.maxCacheAge)
+    }
+
+    func adding(seconds: TimeInterval) -> Date {
+        return self + seconds
+    }
+
+    func adding(days: Int) -> Date {
+        return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
+    }
+}

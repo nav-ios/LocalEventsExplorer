@@ -10,10 +10,12 @@ import Foundation
 public final class LocalEventsLoader {
     private let store: EventsStore
     private let currentDate: () -> Date
+    private let policy: EventsCachePolicy
 
-    public init(store: EventsStore, currentDate: @escaping () -> Date) {
+    public init(store: EventsStore, currentDate: @escaping () -> Date, policy: EventsCachePolicy = .thirtyMinutes) {
         self.store = store
         self.currentDate = currentDate
+        self.policy = policy
     }
 }
 
@@ -48,11 +50,12 @@ extension LocalEventsLoader: EventsLoader {
 
     public enum LoadError: Swift.Error, Equatable {
         case emptyCache
+        case expiredCache
     }
 
     public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
-            guard self != nil else { return }
+            guard let self = self else { return }
 
             switch result {
             case let .failure(error):
@@ -61,8 +64,11 @@ extension LocalEventsLoader: EventsLoader {
             case .success(.none):
                 completion(.failure(LoadError.emptyCache))
 
-            case let .success(.some(cache)):
+            case let .success(.some(cache)) where self.policy.validate(cache.timestamp, against: self.currentDate()):
                 completion(.success(cache.events.toModels()))
+
+            case .success:
+                completion(.failure(LoadError.expiredCache))
             }
         }
     }
