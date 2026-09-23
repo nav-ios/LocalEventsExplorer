@@ -11,12 +11,25 @@ public final class RemoteEventsLoader {
     private let url: URL
     private let client: HTTPClient
 
+    public enum Error: Swift.Error {
+        case connectivity
+    }
+
+    public typealias Result = Swift.Result<[Event], Swift.Error>
+
     public init(url: URL, client: HTTPClient) {
         self.url = url
         self.client = client
     }
 
-    public func load() {
-        client.get(from: url) { _ in }
+    public func load(completion: @escaping (Result) -> Void) {
+        client.get(from: url) { result in
+            switch result {
+            case .failure:
+                completion(.failure(Error.connectivity))
+            case .success:
+                break
+            }
+        }
     }
 }
