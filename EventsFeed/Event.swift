@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Event: Equatable {
+public struct Event: Equatable, Decodable {
     public let id: UUID
     public let title: String
     public let location: EventLocation
@@ -23,7 +23,7 @@ public struct Event: Equatable {
     }
 }
 
-public struct EventLocation: Equatable {
+public struct EventLocation: Equatable, Decodable {
     public let name: String
     public let latitude: Double
     public let longitude: Double

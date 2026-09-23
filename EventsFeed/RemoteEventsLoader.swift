@@ -28,11 +28,21 @@ public final class RemoteEventsLoader {
             switch result {
             case .failure:
                 completion(.failure(Error.connectivity))
-            case let .success((_, response)):
-                if response.statusCode != 200 {
-                    completion(.failure(Error.invalidData))
-                }
+            case let .success((data, response)):
+                completion(RemoteEventsLoader.map(data, from: response))
             }
         }
     }
+
+    private static func map(_ data: Data, from response: HTTPURLResponse) -> Result {
+        guard response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) else {
+            return .failure(Error.invalidData)
+        }
+
+        return .success(root.events)
+    }
+}
+
+private struct Root: Decodable {
+    let events: [Event]
 }
