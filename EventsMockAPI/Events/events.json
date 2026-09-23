@@ -1,0 +1,136 @@
+{
+  "events": [
+    {
+      "id": "2B418B2E-000E-5900-8167-EAA0E9EE7ADE",
+      "title": "Jazz Night at Massey Hall",
+      "location": {
+        "name": "Massey Hall",
+        "latitude": 43.6544,
+        "longitude": -79.3792
+      },
+      "time": "2026-10-03T19:30:00Z",
+      "imageURL": "https://picsum.photos/seed/jazz/600/400"
+    },
+    {
+      "id": "E7F649A8-6E7B-578D-8509-E8256CCD8F77",
+      "title": "Toronto Food Truck Festival",
+      "location": {
+        "name": "Nathan Phillips Square",
+        "latitude": 43.6525,
+        "longitude": -79.3835
+      },
+      "time": "2026-10-04T12:00:00Z",
+      "imageURL": "https://picsum.photos/seed/food/600/400"
+    },
+    {
+      "id": "AE56AE58-F1DD-5A2C-B8E1-4B0E25ED60B2",
+      "title": "Sunrise Yoga on the Waterfront",
+      "location": {
+        "name": "Harbourfront Centre",
+        "latitude": 43.6389,
+        "longitude": -79.3817
+      },
+      "time": "2026-10-05T07:00:00Z",
+      "imageURL": "https://picsum.photos/seed/yoga/600/400"
+    },
+    {
+      "id": "EC4AD9FE-8646-5A66-B55D-C7FF85B6F36C",
+      "title": "Indie Film Screening",
+      "location": {
+        "name": "TIFF Lightbox",
+        "latitude": 43.6465,
+        "longitude": -79.3907
+      },
+      "time": "2026-10-08T20:00:00Z",
+      "imageURL": "https://picsum.photos/seed/film/600/400"
+    },
+    {
+      "id": "F78C55E1-B085-5783-B215-E0DE16F5A1A5",
+      "title": "Farmers Market Saturday",
+      "location": {
+        "name": "St. Lawrence Market",
+        "latitude": 43.6487,
+        "longitude": -79.3716
+      },
+      "time": "2026-10-10T08:00:00Z",
+      "imageURL": "https://picsum.photos/seed/market/600/400"
+    },
+    {
+      "id": "C1B1F228-5F50-51C5-8DF7-49CD8F17EB07",
+      "title": "Raptors Open Practice",
+      "location": {
+        "name": "Scotiabank Arena",
+        "latitude": 43.6435,
+        "longitude": -79.3791
+      },
+      "time": "2026-10-11T14:00:00Z",
+      "imageURL": "https://picsum.photos/seed/basketball/600/400"
+    },
+    {
+      "id": "BBDBDB43-3617-58B6-9113-6044FC602500",
+      "title": "Distillery District Art Walk",
+      "location": {
+        "name": "Distillery District",
+        "latitude": 43.6503,
+        "longitude": -79.3596
+      },
+      "time": "2026-10-12T11:00:00Z",
+      "imageURL": "https://picsum.photos/seed/art/600/400"
+    },
+    {
+      "id": "6FFD1667-86C9-53BF-8D81-3CEE6716509E",
+      "title": "Tech Meetup: Swift & Combine",
+      "location": {
+        "name": "MaRS Discovery District",
+        "latitude": 43.6596,
+        "longitude": -79.389
+      },
+      "time": "2026-10-14T18:30:00Z",
+      "imageURL": "https://picsum.photos/seed/tech/600/400"
+    },
+    {
+      "id": "9881AB03-DC61-5B4C-8CEE-4E46C33DA058",
+      "title": "High Park Fall Colours Hike",
+      "location": {
+        "name": "High Park",
+        "latitude": 43.6465,
+        "longitude": -79.4637
+      },
+      "time": "2026-10-17T10:00:00Z",
+      "imageURL": "https://picsum.photos/seed/hike/600/400"
+    },
+    {
+      "id": "AA21F3D9-6FF9-5E46-A643-173D74396B85",
+      "title": "Kensington Market Pedestrian Sunday",
+      "location": {
+        "name": "Kensington Market",
+        "latitude": 43.6547,
+        "longitude": -79.4025
+      },
+      "time": "2026-10-25T12:00:00Z",
+      "imageURL": "https://picsum.photos/seed/kensington/600/400"
+    },
+    {
+      "id": "AD2EC1E3-4668-549D-A296-96C4BE502358",
+      "title": "Symphony Under the Stars",
+      "location": {
+        "name": "Roy Thomson Hall",
+        "latitude": 43.6466,
+        "longitude": -79.3864
+      },
+      "time": "2026-11-01T19:00:00Z",
+      "imageURL": "https://picsum.photos/seed/symphony/600/400"
+    },
+    {
+      "id": "75E5DDB6-7F3D-560D-B87C-E411BDC765C5",
+      "title": "Halloween Night Market",
+      "location": {
+        "name": "Evergreen Brick Works",
+        "latitude": 43.6845,
+        "longitude": -79.3654
+      },
+      "time": "2026-10-31T17:00:00Z",
+      "imageURL": "https://picsum.photos/seed/halloween/600/400"
+    }
+  ]
+}
