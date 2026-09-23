@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class RemoteEventsLoader {
+public final class RemoteEventsLoader: EventsLoader {
     private let url: URL
     private let client: HTTPClient
 
@@ -16,7 +16,7 @@ public final class RemoteEventsLoader {
         case invalidData
     }
 
-    public typealias Result = Swift.Result<[Event], Swift.Error>
+    public typealias Result = EventsLoader.Result
 
     public init(url: URL, client: HTTPClient) {
         self.url = url
