@@ -64,6 +64,15 @@ final class RemoteEventsLoaderTests: XCTestCase {
         })
     }
 
+    func test_load_deliversNoEventsOn200HTTPResponseWithEmptyJSONList() {
+        let (sut, client) = makeSUT()
+
+        expect(sut, toCompleteWith: .success([]), when: {
+            let emptyListJSON = makeEventsJSON([])
+            client.complete(withStatusCode: 200, data: emptyListJSON)
+        })
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(url: URL = URL(string: "https://any-url.com")!) -> (sut: RemoteEventsLoader, client: HTTPClientSpy) {
@@ -82,6 +91,11 @@ final class RemoteEventsLoaderTests: XCTestCase {
 
     private func anyData() -> Data {
         return Data("any data".utf8)
+    }
+
+    private func makeEventsJSON(_ events: [[String: Any]]) -> Data {
+        let json = ["events": events]
+        return try! JSONSerialization.data(withJSONObject: json)
     }
 
     private func expect(_ sut: RemoteEventsLoader, toCompleteWith expectedResult: RemoteEventsLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
