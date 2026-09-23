@@ -19,6 +19,10 @@ enum EventsStoreModel {
         event.name = ManagedEvent.entityName
         event.managedObjectClassName = NSStringFromClass(ManagedEvent.self)
 
+        let bookmark = NSEntityDescription()
+        bookmark.name = ManagedBookmark.entityName
+        bookmark.managedObjectClassName = NSStringFromClass(ManagedBookmark.self)
+
         let timestamp = attribute("timestamp", .dateAttributeType)
 
         let id = attribute("id", .UUIDAttributeType)
@@ -49,9 +53,10 @@ enum EventsStoreModel {
 
         cache.properties = [timestamp, events]
         event.properties = [id, title, locationName, latitude, longitude, time, imageURL, eventCache]
+        bookmark.properties = [attribute("eventID", .UUIDAttributeType), attribute("createdAt", .dateAttributeType)]
 
         let model = NSManagedObjectModel()
-        model.entities = [cache, event]
+        model.entities = [cache, event, bookmark]
         return model
     }
 

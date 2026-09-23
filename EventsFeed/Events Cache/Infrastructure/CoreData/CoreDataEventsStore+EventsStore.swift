@@ -8,7 +8,7 @@
 import CoreData
 
 extension CoreDataEventsStore: EventsStore {
-    public func retrieve(completion: @escaping (RetrievalResult) -> Void) {
+    public func retrieve(completion: @escaping (EventsStore.RetrievalResult) -> Void) {
         perform { context in
             completion(Result {
                 try ManagedCache.find(in: context).map {
