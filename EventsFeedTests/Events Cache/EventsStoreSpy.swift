@@ -35,4 +35,20 @@ final class EventsStoreSpy: EventsStore {
         retrievalCompletions.append(completion)
         receivedMessages.append(.retrieve)
     }
+
+    func completeDeletion(with error: Error, at index: Int = 0) {
+        deletionCompletions[index](.failure(error))
+    }
+
+    func completeDeletionSuccessfully(at index: Int = 0) {
+        deletionCompletions[index](.success(()))
+    }
+
+    func completeInsertion(with error: Error, at index: Int = 0) {
+        insertionCompletions[index](.failure(error))
+    }
+
+    func completeInsertionSuccessfully(at index: Int = 0) {
+        insertionCompletions[index](.success(()))
+    }
 }
