@@ -15,4 +15,8 @@ public final class RemoteEventsLoader {
         self.url = url
         self.client = client
     }
+
+    public func load() {
+        client.get(from: url) { _ in }
+    }
 }
