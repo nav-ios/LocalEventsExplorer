@@ -43,6 +43,18 @@ final class RemoteEventsLoaderTests: XCTestCase {
         })
     }
 
+    func test_load_deliversInvalidDataErrorOnNon200HTTPResponse() {
+        let (sut, client) = makeSUT()
+
+        let samples = [199, 201, 300, 400, 500]
+
+        samples.enumerated().forEach { index, code in
+            expect(sut, toCompleteWith: failure(.invalidData), when: {
+                client.complete(withStatusCode: code, data: anyData(), at: index)
+            })
+        }
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(url: URL = URL(string: "https://any-url.com")!) -> (sut: RemoteEventsLoader, client: HTTPClientSpy) {
@@ -57,6 +69,10 @@ final class RemoteEventsLoaderTests: XCTestCase {
 
     private func anyNSError() -> NSError {
         return NSError(domain: "any error", code: 0)
+    }
+
+    private func anyData() -> Data {
+        return Data("any data".utf8)
     }
 
     private func expect(_ sut: RemoteEventsLoader, toCompleteWith expectedResult: RemoteEventsLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
@@ -95,6 +111,16 @@ final class RemoteEventsLoaderTests: XCTestCase {
 
         func complete(with error: Error, at index: Int = 0) {
             messages[index].completion(.failure(error))
+        }
+
+        func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
+            let response = HTTPURLResponse(
+                url: requestedURLs[index],
+                statusCode: code,
+                httpVersion: nil,
+                headerFields: nil
+            )!
+            messages[index].completion(.success((data, response)))
         }
     }
 }

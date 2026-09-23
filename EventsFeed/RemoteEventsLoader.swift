@@ -13,6 +13,7 @@ public final class RemoteEventsLoader {
 
     public enum Error: Swift.Error {
         case connectivity
+        case invalidData
     }
 
     public typealias Result = Swift.Result<[Event], Swift.Error>
@@ -27,8 +28,10 @@ public final class RemoteEventsLoader {
             switch result {
             case .failure:
                 completion(.failure(Error.connectivity))
-            case .success:
-                break
+            case let .success((_, response)):
+                if response.statusCode != 200 {
+                    completion(.failure(Error.invalidData))
+                }
             }
         }
     }
