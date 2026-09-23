@@ -43,6 +43,31 @@ extension LocalEventsLoader {
     }
 }
 
+extension LocalEventsLoader: EventsLoader {
+    public typealias LoadResult = EventsLoader.Result
+
+    public enum LoadError: Swift.Error, Equatable {
+        case emptyCache
+    }
+
+    public func load(completion: @escaping (LoadResult) -> Void) {
+        store.retrieve { [weak self] result in
+            guard self != nil else { return }
+
+            switch result {
+            case let .failure(error):
+                completion(.failure(error))
+
+            case .success(.none):
+                completion(.failure(LoadError.emptyCache))
+
+            case let .success(.some(cache)):
+                completion(.success(cache.events.toModels()))
+            }
+        }
+    }
+}
+
 private extension Array where Element == Event {
     func toLocal() -> [LocalEvent] {
         return map {
@@ -52,6 +77,20 @@ private extension Array where Element == Event {
                 locationName: $0.location.name,
                 latitude: $0.location.latitude,
                 longitude: $0.location.longitude,
+                time: $0.time,
+                imageURL: $0.imageURL
+            )
+        }
+    }
+}
+
+private extension Array where Element == LocalEvent {
+    func toModels() -> [Event] {
+        return map {
+            Event(
+                id: $0.id,
+                title: $0.title,
+                location: EventLocation(name: $0.locationName, latitude: $0.latitude, longitude: $0.longitude),
                 time: $0.time,
                 imageURL: $0.imageURL
             )

@@ -51,4 +51,16 @@ final class EventsStoreSpy: EventsStore {
     func completeInsertionSuccessfully(at index: Int = 0) {
         insertionCompletions[index](.success(()))
     }
+
+    func completeRetrieval(with error: Error, at index: Int = 0) {
+        retrievalCompletions[index](.failure(error))
+    }
+
+    func completeRetrievalWithEmptyCache(at index: Int = 0) {
+        retrievalCompletions[index](.success(.none))
+    }
+
+    func completeRetrieval(with events: [LocalEvent], timestamp: Date, at index: Int = 0) {
+        retrievalCompletions[index](.success(CachedEvents(events: events, timestamp: timestamp)))
+    }
 }
