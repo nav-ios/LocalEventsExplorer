@@ -29,7 +29,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
       <Testables>
-
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A30000000000000000000011"
+               BuildableName = "LocalEventsExplorerTests.xctest"
+               BlueprintName = "LocalEventsExplorerTests"
+               ReferencedContainer = "container:LocalEventsExplorer.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
