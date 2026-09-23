@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "000000000000000100000000"
-               BuildableName = "LocalEventsExplorer.app"
-               BlueprintName = "CI"
+               BlueprintIdentifier = "A20000000000000000000001"
+               BuildableName = "EventsMockAPI.framework"
+               BlueprintName = "EventsMockAPI"
                ReferencedContainer = "container:LocalEventsExplorer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,16 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A10000000000000000000011"
-               BuildableName = "EventsFeedTests.xctest"
-               BlueprintName = "EventsFeedTests"
-               ReferencedContainer = "container:LocalEventsExplorer.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
@@ -61,16 +51,7 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "000000000000000100000000"
-            BuildableName = "LocalEventsExplorer.app"
-            BlueprintName = "LocalEventsExplorer"
-            ReferencedContainer = "container:LocalEventsExplorer.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
+
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
