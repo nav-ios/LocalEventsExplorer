@@ -45,6 +45,61 @@ final class LocalEventsLoaderTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.deleteCachedEvents, .insert(events.local, timestamp)])
     }
 
+    func test_save_failsOnDeletionError() {
+        let (sut, store) = makeSUT()
+        let deletionError = anyNSError()
+
+        expect(sut, toCompleteWith: deletionError, when: {
+            store.completeDeletion(with: deletionError)
+        })
+    }
+
+    func test_save_failsOnInsertionError() {
+        let (sut, store) = makeSUT()
+        let insertionError = anyNSError()
+
+        expect(sut, toCompleteWith: insertionError, when: {
+            store.completeDeletionSuccessfully()
+            store.completeInsertion(with: insertionError)
+        })
+    }
+
+    func test_save_succeedsOnSuccessfulCacheInsertion() {
+        let (sut, store) = makeSUT()
+
+        expect(sut, toCompleteWith: nil, when: {
+            store.completeDeletionSuccessfully()
+            store.completeInsertionSuccessfully()
+        })
+    }
+
+    func test_save_doesNotDeliverDeletionErrorAfterSUTInstanceHasBeenDeallocated() {
+        let store = EventsStoreSpy()
+        var sut: LocalEventsLoader? = LocalEventsLoader(store: store, currentDate: Date.init)
+
+        var receivedResults = [LocalEventsLoader.SaveResult]()
+        sut?.save(uniqueEvents().models) { receivedResults.append($0) }
+
+        sut = nil
+        store.completeDeletion(with: anyNSError())
+
+        XCTAssertTrue(receivedResults.isEmpty)
+    }
+
+    func test_save_doesNotDeliverInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
+        let store = EventsStoreSpy()
+        var sut: LocalEventsLoader? = LocalEventsLoader(store: store, currentDate: Date.init)
+
+        var receivedResults = [LocalEventsLoader.SaveResult]()
+        sut?.save(uniqueEvents().models) { receivedResults.append($0) }
+
+        store.completeDeletionSuccessfully()
+        sut = nil
+        store.completeInsertion(with: anyNSError())
+
+        XCTAssertTrue(receivedResults.isEmpty)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalEventsLoader, store: EventsStoreSpy) {
@@ -53,6 +108,21 @@ final class LocalEventsLoaderTests: XCTestCase {
         trackForMemoryLeaks(store, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, store)
+    }
+
+    private func expect(_ sut: LocalEventsLoader, toCompleteWith expectedError: NSError?, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "Wait for save completion")
+
+        var receivedError: Error?
+        sut.save(uniqueEvents().models) { result in
+            if case let .failure(error) = result { receivedError = error }
+            exp.fulfill()
+        }
+
+        action()
+        wait(for: [exp], timeout: 1.0)
+
+        XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
 
     private func uniqueEvent() -> Event {
