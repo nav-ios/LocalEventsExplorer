@@ -73,6 +73,35 @@ final class RemoteEventsLoaderTests: XCTestCase {
         })
     }
 
+    func test_load_deliversEventsOn200HTTPResponseWithJSONList() {
+        let (sut, client) = makeSUT()
+
+        let event1 = makeEvent(
+            id: UUID(),
+            title: "Jazz Night",
+            locationName: "Massey Hall",
+            latitude: 43.6544,
+            longitude: -79.3807,
+            time: Date(timeIntervalSince1970: 1790000000),
+            imageURL: URL(string: "https://a-url.com/jazz.jpg")!
+        )
+
+        let event2 = makeEvent(
+            id: UUID(),
+            title: "Food Festival",
+            locationName: "Nathan Phillips Square",
+            latitude: 43.6525,
+            longitude: -79.3835,
+            time: Date(timeIntervalSince1970: 1790100000),
+            imageURL: URL(string: "https://a-url.com/food.jpg")!
+        )
+
+        expect(sut, toCompleteWith: .success([event1.model, event2.model]), when: {
+            let json = makeEventsJSON([event1.json, event2.json])
+            client.complete(withStatusCode: 200, data: json)
+        })
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(url: URL = URL(string: "https://any-url.com")!) -> (sut: RemoteEventsLoader, client: HTTPClientSpy) {
@@ -91,6 +120,30 @@ final class RemoteEventsLoaderTests: XCTestCase {
 
     private func anyData() -> Data {
         return Data("any data".utf8)
+    }
+
+    private func makeEvent(id: UUID, title: String, locationName: String, latitude: Double, longitude: Double, time: Date, imageURL: URL) -> (model: Event, json: [String: Any]) {
+        let model = Event(
+            id: id,
+            title: title,
+            location: EventLocation(name: locationName, latitude: latitude, longitude: longitude),
+            time: time,
+            imageURL: imageURL
+        )
+
+        let json: [String: Any] = [
+            "id": id.uuidString,
+            "title": title,
+            "location": [
+                "name": locationName,
+                "latitude": latitude,
+                "longitude": longitude
+            ],
+            "time": ISO8601DateFormatter().string(from: time),
+            "imageURL": imageURL.absoluteString
+        ]
+
+        return (model, json)
     }
 
     private func makeEventsJSON(_ events: [[String: Any]]) -> Data {
