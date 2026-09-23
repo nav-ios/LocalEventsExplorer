@@ -130,14 +130,6 @@ final class RemoteEventsLoaderTests: XCTestCase {
         return .failure(error)
     }
 
-    private func anyNSError() -> NSError {
-        return NSError(domain: "any error", code: 0)
-    }
-
-    private func anyData() -> Data {
-        return Data("any data".utf8)
-    }
-
     private func makeEvent(id: UUID, title: String, locationName: String, latitude: Double, longitude: Double, time: Date, imageURL: URL) -> (model: Event, json: [String: Any]) {
         let model = Event(
             id: id,

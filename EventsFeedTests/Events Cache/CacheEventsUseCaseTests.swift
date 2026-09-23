@@ -1,5 +1,5 @@
 //
-//  LocalEventsLoaderTests.swift
+//  CacheEventsUseCaseTests.swift
 //  EventsFeedTests
 //
 //  Created by Navdeep Rana on 22/09/26.
@@ -8,7 +8,7 @@
 import XCTest
 import EventsFeed
 
-final class LocalEventsLoaderTests: XCTestCase {
+final class CacheEventsUseCaseTests: XCTestCase {
 
     func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = makeSUT()
@@ -125,37 +125,4 @@ final class LocalEventsLoaderTests: XCTestCase {
         XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
 
-    private func uniqueEvent() -> Event {
-        return Event(
-            id: UUID(),
-            title: "any title",
-            location: EventLocation(name: "any place", latitude: 43.65, longitude: -79.38),
-            time: Date(),
-            imageURL: anyURL()
-        )
-    }
-
-    private func uniqueEvents() -> (models: [Event], local: [LocalEvent]) {
-        let models = [uniqueEvent(), uniqueEvent()]
-        let local = models.map {
-            LocalEvent(
-                id: $0.id,
-                title: $0.title,
-                locationName: $0.location.name,
-                latitude: $0.location.latitude,
-                longitude: $0.location.longitude,
-                time: $0.time,
-                imageURL: $0.imageURL
-            )
-        }
-        return (models, local)
-    }
-
-    private func anyURL() -> URL {
-        return URL(string: "https://any-url.com")!
-    }
-
-    private func anyNSError() -> NSError {
-        return NSError(domain: "any error", code: 0)
-    }
 }
